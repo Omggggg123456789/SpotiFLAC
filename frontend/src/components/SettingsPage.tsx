@@ -449,6 +449,29 @@ export function SettingsPage({ onUnsavedChangesChange, onResetRequest, }: Settin
                   </div>)}
               </div>
 
+              <div className="space-y-2">
+                <Label htmlFor="concurrent-downloads">Concurrent Downloads</Label>
+                <InputWithContext
+                  id="concurrent-downloads"
+                  type="number"
+                  min={0}
+                  step={1}
+                  value={String(tempSettings.concurrentDownloads ?? 1)}
+                  onChange={(e) => {
+                    const raw = Number.parseInt(e.target.value, 10);
+                    const normalized = Number.isNaN(raw) ? 1 : Math.max(0, raw);
+                    setTempSettings((prev) => ({
+                      ...prev,
+                      concurrentDownloads: normalized,
+                    }));
+                  }}
+                  placeholder="1"
+                />
+                <p className="text-xs text-muted-foreground">
+                  0 = download all queued tracks concurrently. 1 = one by one.
+                </p>
+              </div>
+
               <div className="border-t pt-6"/>
 
               <div className="space-y-4">
